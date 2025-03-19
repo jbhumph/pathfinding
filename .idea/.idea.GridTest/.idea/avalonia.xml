@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="GridTest/App.axaml" value="GridTest/GridTest.csproj" />
+        <entry key="GridTest/Views/MainWindow.axaml" value="GridTest/GridTest.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

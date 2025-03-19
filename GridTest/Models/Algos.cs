@@ -1,0 +1,132 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using GridTest.ViewModels;
+
+namespace GridTest.Models;
+
+public class Algos
+{
+
+    public void BFS(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
+    // Breadth-First search for grid
+    {
+        var queue = new Queue<TileViewModel>();
+        queue.Enqueue(start);
+        start.IsVisited = true;
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+            if (current == end)
+            {
+                MarkRoute(current);
+                return;
+            }
+
+            foreach (var neighbor in GetNeighbors(current, grid))
+            {
+                if (neighbor == null)
+                {
+                    continue;
+                }
+                
+                if (!neighbor.IsVisited && !neighbor.IsWall)
+                {
+                    neighbor.IsVisited = true;
+                    neighbor.Previous = current;
+                    queue.Enqueue(neighbor);
+                }
+            }
+        }
+    }
+    
+    static void DFS(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
+    // Depth-First search for grid
+    {
+        var stack = new Stack<TileViewModel>();
+        stack.Push(start);
+        start.IsVisited = true;
+
+        while (stack.Count > 0)
+        {
+            var current = stack.Pop();
+            if (current == end) return;
+            
+            foreach (var neighbor in GetNeighbors(current, grid))
+            {
+                if (!neighbor.IsVisited && !neighbor.IsWall)
+                {
+                    neighbor.IsVisited = true;
+                    neighbor.Previous = current;
+                    stack.Push(neighbor);
+                }
+            }
+        }
+    }
+    
+    static void Dijkstra(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
+    // Dijkstra search for grid
+    {
+        var unvisited = new List<TileViewModel>();
+        foreach (var node in grid)
+        {
+            node.IsVisited = false;
+            node.Distance = double.MaxValue;
+            node.Previous = null;
+            unvisited.Add(node);
+        }
+        
+        start.Distance = 0;
+        while (unvisited.Count > 0)
+        {
+            // get node with smallest distance
+            var current = unvisited.OrderBy(x => x.Distance).First();
+            unvisited.Remove(current);
+            
+            if (current.IsWall) continue;
+            if (current.Distance == double.MaxValue) break;
+            if (current == end) return;
+            
+            // update distances of neighbors
+            foreach (var neighbor in GetNeighbors(current, grid))
+            {
+                if (neighbor.IsWall) continue;
+                
+                double alt = current.Distance + 1;
+                if (alt < neighbor.Distance)
+                {
+                    neighbor.Distance = alt;
+                    neighbor.Previous = current;
+                }
+            }
+        }
+    }
+    
+    static List<TileViewModel> GetNeighbors(TileViewModel node, TileViewModel[,] grid)
+        // returns all neighbors of node in a list
+    {
+        var neighbors = new List<TileViewModel>();
+        var directions = new (int dx, int dy)[] { (0, 1), (1, 0), (0, -1), (-1, 0) };
+
+        foreach (var (dx, dy) in directions)
+        {
+            int nx = node.X + dx;
+            int ny = node.Y + dy;
+            
+            if (nx >= 0 && ny >= 0 && nx < 20 && ny < 20) neighbors.Add(grid[nx, ny]);
+        }
+        
+        return neighbors;
+    }
+
+    static void MarkRoute(TileViewModel end)
+    {
+        var current = end;
+        while (current != null)
+        {
+            current.IsPath = true;
+            current = current.Previous;
+        }
+    }
+}

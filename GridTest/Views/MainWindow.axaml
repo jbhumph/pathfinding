@@ -1,0 +1,116 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:GridTest.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:GridTest.Converters"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="GridTest.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="GridTest" Width="700" Height="800">
+
+        <Window.Resources>
+                <local:WallToColorConverter x:Key="WallToColorConverter" />
+        </Window.Resources>
+
+        <!-- Define the main layout with Grid -->
+        <Grid>
+                <!-- Define Rows: 1 for Title/Control Panel bar and 1 for Main Grid -->
+                <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/> <!-- Control Panel -->
+                        <RowDefinition Height="*"/>   <!-- Main Grid -->
+                </Grid.RowDefinitions>
+
+                <!-- Row 0 - Title and Control Panel -->
+                <Border Grid.Row="0" Background="CornflowerBlue" Padding="10">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+
+                                <!-- Application Title -->
+                                <TextBlock Text="Pathfinding Visualizer" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" />
+
+                                <!-- Spacer -->
+                                <Rectangle Width="20"/>
+
+                                <!-- Algorithm Selection (ComboBox) -->
+                                <ComboBox x:Name="AlgorithmSelector" ItemsSource
+                                          ="{Binding Algorithms}"
+                                          SelectedItem="{Binding SelectedAlgorithm, Mode=TwoWay}"
+                                          Width="200">
+                                </ComboBox>
+
+                                <!-- Spacer -->
+                                <Rectangle Width="20"/>
+
+                                <!-- Start Button -->
+                                <Button x:Name="StartButton" Content="Start" Command="{Binding StartCommand}"
+                                         Width="100"/>
+                        </StackPanel>
+                </Border>
+
+                <!-- Row 1 - Main Visualizer Grid -->
+                <!-- Row 1 - Main Visualizer Grid -->
+                <ItemsControl Grid.Row="1" x:Name="VisualizerGrid" 
+                              Background="LightBlue" 
+                              ItemsSource="{Binding Tiles}">
+
+                        <!-- Define the ItemsPanel as a UniformGrid -->
+                        <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                        <UniformGrid Columns="20"/> <!-- Set the number of columns -->
+                                </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <!-- Define the template for each grid tile -->
+                        <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                        <Button Width="30" 
+                                                Height="30" 
+                                                Margin="1"
+                                                Command="{Binding ToggleWallCommand}" 
+                                                CommandParameter="{Binding}"
+                                                Classes.start="{Binding IsStartNode}"
+                                                Classes.end="{Binding IsEndNode}"
+                                                Classes.wall="{Binding IsWall}"
+                                                Classes.visited="{Binding IsVisited}"
+                                                Classes.path="{Binding IsPath}"/>
+                                </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                        <ItemsControl.Styles>
+                                <!-- Default button style -->
+                                <Style Selector="Button">
+                                        <Setter Property="Background" Value="White"/>
+                                </Style>
+                                
+                                <Style Selector="Button.visited">
+                                        <Setter Property="Background" Value="LightGreen"/>
+                                </Style>
+    
+                                <!-- Wall style -->
+                                <Style Selector="Button.wall">
+                                        <Setter Property="Background" Value="Black"/>
+                                </Style>
+                                
+                                <Style Selector="Button.path">
+                                        <Setter Property="Background" Value="MediumPurple"/>
+                                </Style>
+    
+                                <!-- Start node style - highest priority -->
+                                <Style Selector="Button.start">
+                                        <Setter Property="Background" Value="SeaGreen"/>
+                                </Style>
+                                
+                                <!-- End Node Style -->
+                                <Style Selector="Button.end">
+                                        <Setter Property="Background" Value="Red"/>
+                                </Style>
+                        </ItemsControl.Styles>
+
+
+
+                </ItemsControl>
+
+        </Grid>
+
+</Window>

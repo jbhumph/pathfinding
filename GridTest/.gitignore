@@ -1,0 +1,26 @@
+# Build & Output directories
+/bin/
+/obj/
+
+# Rider-specific files
+.idea/
+*.sln.iml
+
+# Visual Studio files (if you ever open this in VS)
+.vs/
+*.user
+*.suo
+
+# Avalonia generated files/directories (if any additional ones are present)
+packages/
+
+# NuGet packages folder (if present)
+.nuget/
+
+# OS-specific files (macOS, etc.)
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+tmp/
