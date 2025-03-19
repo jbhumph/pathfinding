@@ -45,6 +45,10 @@
                                 <!-- Start Button -->
                                 <Button x:Name="StartButton" Content="Start" Command="{Binding StartCommand}"
                                          Width="100"/>
+                                
+                                <!-- Start Button -->
+                                <Button x:Name="ClearButton" Content="Clear" Command="{Binding ClearCommand}"
+                                        Width="100"/>
                         </StackPanel>
                 </Border>
 

@@ -29,6 +29,8 @@ public class MainWindowViewModel : ViewModelBase
     
     public ICommand StartCommand { get; }
     
+    public ICommand ClearCommand { get; }
+    
     private readonly Pathfinding _pathfinding = new Pathfinding();
     
     
@@ -56,6 +58,7 @@ public class MainWindowViewModel : ViewModelBase
         
         SelectedAlgorithm = Algorithms[0];
         StartCommand = ReactiveCommand.Create(OnStart);
+        ClearCommand = ReactiveCommand.Create(OnClear);
 
         
     }
@@ -73,6 +76,18 @@ public class MainWindowViewModel : ViewModelBase
         var result = _pathfinding.Run(grid, Tiles[Start], Tiles[End], SelectedAlgorithm);
 
 
+    }
+    
+    private void OnClear()
+    {
+        foreach (var tile in Tiles)
+        {
+            tile.IsVisited = false;
+            tile.IsPath = false;
+            tile.IsWall = false;
+            tile.Distance = double.MaxValue;
+            tile.Previous = null;
+        }
     }
 
     
