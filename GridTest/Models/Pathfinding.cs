@@ -14,9 +14,11 @@ public class Pathfinding
         } else if (algorithm == "DepthFirst")
         {
             System.Console.WriteLine($"Depth First: Start {start.X}, {start.Y} End {end.X}, {end.Y}");
+            algo.DFS(grid, start, end);
         } else if (algorithm == "Dijkstra")
         {
             System.Console.WriteLine($"Dijkstra: Start {start.X}, {start.Y} End {end.X}, {end.Y}");
+            algo.Dijkstra(grid, start, end);
         }
 
         return 0;

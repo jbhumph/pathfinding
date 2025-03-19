@@ -15,7 +15,6 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<string> Algorithms { get; } = new ObservableCollection<string>
     {
         "Dijkstra",
-        "AStar",
         "BreadthFirst",
         "DepthFirst"
     };

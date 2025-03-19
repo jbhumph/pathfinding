@@ -26,11 +26,6 @@ public class Algos
 
             foreach (var neighbor in GetNeighbors(current, grid))
             {
-                if (neighbor == null)
-                {
-                    continue;
-                }
-                
                 if (!neighbor.IsVisited && !neighbor.IsWall)
                 {
                     neighbor.IsVisited = true;
@@ -41,7 +36,7 @@ public class Algos
         }
     }
     
-    static void DFS(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
+    public void DFS(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
     // Depth-First search for grid
     {
         var stack = new Stack<TileViewModel>();
@@ -51,7 +46,11 @@ public class Algos
         while (stack.Count > 0)
         {
             var current = stack.Pop();
-            if (current == end) return;
+            if (current == end)
+            {
+                MarkRoute(current);
+                return;
+            }
             
             foreach (var neighbor in GetNeighbors(current, grid))
             {
@@ -65,7 +64,7 @@ public class Algos
         }
     }
     
-    static void Dijkstra(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
+    public void Dijkstra(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
     // Dijkstra search for grid
     {
         var unvisited = new List<TileViewModel>();
@@ -76,17 +75,24 @@ public class Algos
             node.Previous = null;
             unvisited.Add(node);
         }
-        
+        System.Console.WriteLine("Test");
         start.Distance = 0;
         while (unvisited.Count > 0)
         {
             // get node with smallest distance
             var current = unvisited.OrderBy(x => x.Distance).First();
-            unvisited.Remove(current);
+            var temp = unvisited.Remove(current);
+            current.IsVisited = true;
             
             if (current.IsWall) continue;
             if (current.Distance == double.MaxValue) break;
-            if (current == end) return;
+            if (current == end)
+            {
+                
+                MarkRoute(current);
+                return;
+            }
+
             
             // update distances of neighbors
             foreach (var neighbor in GetNeighbors(current, grid))
