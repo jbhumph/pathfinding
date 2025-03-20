@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using GridTest.ViewModels;
 
@@ -16,7 +14,6 @@ public class Algos
         var queue = new Queue<TileViewModel>();
         queue.Enqueue(start);
         start.IsVisited = true;
-
         while (queue.Count > 0)
         {
             var current = queue.Dequeue();
@@ -25,7 +22,6 @@ public class Algos
                 MarkRoute(current);
                 return;
             }
-
             foreach (var neighbor in GetNeighbors(current, grid))
             {
                 if (!neighbor.IsVisited && !neighbor.IsWall)
@@ -45,7 +41,6 @@ public class Algos
         var stack = new Stack<TileViewModel>();
         stack.Push(start);
         start.IsVisited = true;
-
         while (stack.Count > 0)
         {
             var current = stack.Pop();
@@ -54,7 +49,6 @@ public class Algos
                 MarkRoute(current);
                 return;
             }
-            
             foreach (var neighbor in GetNeighbors(current, grid))
             {
                 if (!neighbor.IsVisited && !neighbor.IsWall)
@@ -93,17 +87,13 @@ public class Algos
             if (current.Distance == double.MaxValue) break;
             if (current == end)
             {
-                
                 MarkRoute(current);
                 return;
             }
-
-            
             // update distances of neighbors
             foreach (var neighbor in GetNeighbors(current, grid))
             {
                 if (neighbor.IsWall) continue;
-                
                 double alt = current.Distance + 1;
                 if (alt < neighbor.Distance)
                 {
@@ -119,19 +109,17 @@ public class Algos
     {
         var neighbors = new List<TileViewModel>();
         var directions = new (int dx, int dy)[] { (0, 1), (1, 0), (0, -1), (-1, 0) };
-
         foreach (var (dx, dy) in directions)
         {
             int nx = node.X + dx;
             int ny = node.Y + dy;
-            
             if (nx >= 0 && ny >= 0 && nx < 20 && ny < 20) neighbors.Add(grid[nx, ny]);
         }
-        
         return neighbors;
     }
 
     static async Task MarkRoute(TileViewModel end)
+    // this method traces the fastest route back to start and marks the path
     {
         var current = end;
         while (current != null)
