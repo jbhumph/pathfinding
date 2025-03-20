@@ -5,6 +5,7 @@ namespace GridTest.ViewModels;
 
 public class TileViewModel : ViewModelBase
 {
+    // the TileViewModel represents a node or vertex in the graph
     public int X { get; set; }
     public int Y { get; set; }
     public double Distance { get; set; } = double.MaxValue;

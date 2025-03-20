@@ -1,3 +1,4 @@
+<!-- Primary Visualization for program-->
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:GridTest.ViewModels"
@@ -13,59 +14,39 @@
         <Window.Resources>
                 <local:WallToColorConverter x:Key="WallToColorConverter" />
         </Window.Resources>
-
-        <!-- Define the main layout with Grid -->
+        
         <Grid>
-                <!-- Define Rows: 1 for Title/Control Panel bar and 1 for Main Grid -->
                 <Grid.RowDefinitions>
-                        <RowDefinition Height="100"/> <!-- Control Panel -->
-                        <RowDefinition Height="*"/>   <!-- Main Grid -->
+                        <RowDefinition Height="100"/> 
+                        <RowDefinition Height="*"/>  
                 </Grid.RowDefinitions>
 
                 <!-- Row 0 - Title and Control Panel -->
                 <Border Grid.Row="0" Background="CornflowerBlue" Padding="10">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-
-                                <!-- Application Title -->
                                 <TextBlock Text="Pathfinding Visualizer" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" />
-
-                                <!-- Spacer -->
                                 <Rectangle Width="20"/>
-
-                                <!-- Algorithm Selection (ComboBox) -->
                                 <ComboBox x:Name="AlgorithmSelector" ItemsSource
                                           ="{Binding Algorithms}"
                                           SelectedItem="{Binding SelectedAlgorithm, Mode=TwoWay}"
                                           Width="200">
                                 </ComboBox>
-
-                                <!-- Spacer -->
                                 <Rectangle Width="20"/>
-
-                                <!-- Start Button -->
                                 <Button x:Name="StartButton" Content="Start" Command="{Binding StartCommand}"
                                          Width="100"/>
-                                
-                                <!-- Start Button -->
                                 <Button x:Name="ClearButton" Content="Clear" Command="{Binding ClearCommand}"
                                         Width="100"/>
                         </StackPanel>
                 </Border>
-
-                <!-- Row 1 - Main Visualizer Grid -->
-                <!-- Row 1 - Main Visualizer Grid -->
-                <ItemsControl Grid.Row="1" x:Name="VisualizerGrid" 
-                              Background="LightBlue" 
-                              ItemsSource="{Binding Tiles}">
-
-                        <!-- Define the ItemsPanel as a UniformGrid -->
+                
+                <!-- Row 1 - Main Grid -->
+                <ItemsControl Grid.Row="1" x:Name="VisualizerGrid" Background="LightBlue" ItemsSource="{Binding Tiles}">
                         <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                        <UniformGrid Columns="20"/> <!-- Set the number of columns -->
+                                        <UniformGrid Columns="20"/>
                                 </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
-
-                        <!-- Define the template for each grid tile -->
+                        
                         <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                         <Button Width="30" 
@@ -82,39 +63,25 @@
                         </ItemsControl.ItemTemplate>
 
                         <ItemsControl.Styles>
-                                <!-- Default button style -->
                                 <Style Selector="Button">
                                         <Setter Property="Background" Value="White"/>
                                 </Style>
-                                
                                 <Style Selector="Button.visited">
                                         <Setter Property="Background" Value="LightGreen"/>
                                 </Style>
-    
-                                <!-- Wall style -->
                                 <Style Selector="Button.wall">
                                         <Setter Property="Background" Value="Black"/>
                                 </Style>
-                                
                                 <Style Selector="Button.path">
                                         <Setter Property="Background" Value="MediumPurple"/>
                                 </Style>
-    
-                                <!-- Start node style - highest priority -->
                                 <Style Selector="Button.start">
                                         <Setter Property="Background" Value="SeaGreen"/>
                                 </Style>
-                                
-                                <!-- End Node Style -->
                                 <Style Selector="Button.end">
                                         <Setter Property="Background" Value="Red"/>
                                 </Style>
                         </ItemsControl.Styles>
-
-
-
                 </ItemsControl>
-
         </Grid>
-
 </Window>
