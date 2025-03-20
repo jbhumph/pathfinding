@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using GridTest.ViewModels;
 
 namespace GridTest.Models;
@@ -8,7 +10,7 @@ namespace GridTest.Models;
 public class Algos
 {
 
-    public void BFS(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
+    public async Task BFS(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
     // Breadth-First search for grid
     {
         var queue = new Queue<TileViewModel>();
@@ -28,6 +30,7 @@ public class Algos
             {
                 if (!neighbor.IsVisited && !neighbor.IsWall)
                 {
+                    await Task.Delay(10);
                     neighbor.IsVisited = true;
                     neighbor.Previous = current;
                     queue.Enqueue(neighbor);
@@ -36,7 +39,7 @@ public class Algos
         }
     }
     
-    public void DFS(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
+    public async Task DFS(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
     // Depth-First search for grid
     {
         var stack = new Stack<TileViewModel>();
@@ -56,6 +59,7 @@ public class Algos
             {
                 if (!neighbor.IsVisited && !neighbor.IsWall)
                 {
+                    await Task.Delay(10);
                     neighbor.IsVisited = true;
                     neighbor.Previous = current;
                     stack.Push(neighbor);
@@ -64,7 +68,7 @@ public class Algos
         }
     }
     
-    public void Dijkstra(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
+    public async Task Dijkstra(TileViewModel[,] grid, TileViewModel start, TileViewModel end)
     // Dijkstra search for grid
     {
         var unvisited = new List<TileViewModel>();
@@ -82,6 +86,7 @@ public class Algos
             // get node with smallest distance
             var current = unvisited.OrderBy(x => x.Distance).First();
             var temp = unvisited.Remove(current);
+            await Task.Delay(10);
             current.IsVisited = true;
             
             if (current.IsWall) continue;
@@ -126,11 +131,12 @@ public class Algos
         return neighbors;
     }
 
-    static void MarkRoute(TileViewModel end)
+    static async Task MarkRoute(TileViewModel end)
     {
         var current = end;
         while (current != null)
         {
+            await Task.Delay(30);
             current.IsPath = true;
             current = current.Previous;
         }
