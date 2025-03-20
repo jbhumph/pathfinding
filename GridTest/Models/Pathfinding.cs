@@ -5,22 +5,18 @@ namespace GridTest.Models;
 public class Pathfinding
 {
     Algos algo = new Algos();
-    public int Run(TileViewModel[,] grid, TileViewModel start, TileViewModel end, string algorithm)
+    public void Run(TileViewModel[,] grid, TileViewModel start, TileViewModel end, string algorithm)
     {
+        // this method takes the graph data structure and calls the appropriate algorithm based on user input
         if (algorithm == "BreadthFirst")
         {
-            System.Console.WriteLine($"Breadth First: Start {start.X}, {start.Y} End {end.X}, {end.Y}");
             algo.BFS(grid, start, end);
         } else if (algorithm == "DepthFirst")
         {
-            System.Console.WriteLine($"Depth First: Start {start.X}, {start.Y} End {end.X}, {end.Y}");
             algo.DFS(grid, start, end);
         } else if (algorithm == "Dijkstra")
         {
-            System.Console.WriteLine($"Dijkstra: Start {start.X}, {start.Y} End {end.X}, {end.Y}");
             algo.Dijkstra(grid, start, end);
         }
-
-        return 0;
     }
 }
